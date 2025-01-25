@@ -22,7 +22,7 @@ jobs:
           ref: ${{inputs.backend-ref}}
       - name: Get backend commit sha
         id: backend-commit-sha
-        run: sha=$(git -C backend log -1 --format=%h)
+        run: BACKEND_SHA=$(git -C backend log -1 --format=%h)
       - uses: actions/checkout@v4
         with:
           repository: bastikempken/power-data-ui
@@ -45,5 +45,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.backend-commit-sha.outputs.sha }}
+          tags: ${{ env.BACKEND_SHA }}
           labels: ${{ steps.meta.outputs.labels }}
