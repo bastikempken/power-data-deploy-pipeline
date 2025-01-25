@@ -23,7 +23,7 @@ jobs:
       - name: Get backend commit sha
         id: app-commit-sha
         run: |
-          SHA=$(git -C backend log -1 --format=%h)
+          SHA=$(git -C app log -1 --format=%h)
           echo "sha=$SHA" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
         with:
