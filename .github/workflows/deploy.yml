@@ -15,18 +15,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           repository: bastikempken/power-data
           path: backend
           ref: ${{inputs.backend-ref}}
+      - name: Get backend commit sha
+        id: backend-commit-sha
+        run: sha=$(git -C backend log -1 --format=%h)
       - uses: actions/checkout@v4
         with:
           repository: bastikempken/power-data-ui
           path: ui
           ref: ${{inputs.ui-ref}}
-      - run: docker build -t bastikempken/power-data-backend .
-    #  - run: docker save power-data > /tmp/power-data.tar
-    #  - uses: actions/upload-artifact@v4
-    #    with:
-     #     name: power-data
-      #    path: /tmp/power-data.tar
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: steps.backend-commit-sha.sha

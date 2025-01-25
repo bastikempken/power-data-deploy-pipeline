@@ -17,7 +17,7 @@ RUN pnpm --prefix backend run build
 
 ## ui
 FROM base AS prod-ui
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm --prefix=ui --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm --prefix=ui install --frozen-lockfile
 RUN pnpm --prefix ui run build
 
 
