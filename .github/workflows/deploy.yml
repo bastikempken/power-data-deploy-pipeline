@@ -1,0 +1,32 @@
+name: 'Deploy App'
+
+on:
+  workflow_dispatch:
+    inputs:
+      backend-ref:
+        required: true
+        default: main
+      ui-ref:
+        required: true
+        default: main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: bastikempken/power-data
+          path: backend
+          ref: ${{inputs.backend-ref}}
+      - uses: actions/checkout@v4
+        with:
+          repository: bastikempken/power-data-ui
+          path: ui
+          ref: ${{inputs.ui-ref}}
+      - run: docker build -t bastikempken/power-data-backend .
+    #  - run: docker save power-data > /tmp/power-data.tar
+    #  - uses: actions/upload-artifact@v4
+    #    with:
+     #     name: power-data
+      #    path: /tmp/power-data.tar
