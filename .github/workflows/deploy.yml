@@ -30,6 +30,11 @@ jobs:
           repository: bastikempken/power-data-ui
           path: ui
           ref: ${{inputs.ui-ref}}
+      - name: Get ui commit sha
+        id: ui-commit-sha
+        run: |
+          UI_SHA=$(git -C ui log -1 --format=%h)
+          echo "sha=$UI_SHA" >> "$GITHUB_OUTPUT"
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
         with:
@@ -47,5 +52,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: fuchsrot/powerdata:${{ steps.backend-commit-sha.outputs.sha }},fuchsrot/powerdata:latest
+          tags: fuchsrot/power-data:${{ steps.backend-commit-sha.outputs.sha }}-${{ steps.ui-commit-sha.outputs.sha }},fuchsrot/power-data:latest
           labels: ${{ steps.meta.outputs.labels }}
