@@ -47,5 +47,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: bastikempken/powerdata:${{ steps.backend-commit-sha.outputs.sha }} bastikempken/powerdata:latest
+          tags: bastikempken/powerdata:${{ steps.backend-commit-sha.outputs.sha }},bastikempken/powerdata:latest
           labels: ${{ steps.meta.outputs.labels }}
