@@ -45,4 +45,5 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.backend-commit-sha.sha }}
+          tags: ${{ steps.backend-commit-sha.outputs.sha }}
+          labels: ${{ steps.meta.outputs.labels }}
