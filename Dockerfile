@@ -27,7 +27,7 @@ RUN pnpm --prefix $UI_DIR run build
 FROM base
 COPY --from=prod-app-deps /app/$APP_DIR/node_modules /app/node_modules
 COPY --from=build-app /app/$APP_DIR/dist /app
-COPY --from=prod-ui /app/$UI_DIR/dist/power-data-ui/browser /app/client
+COPY --from=prod-ui /app/$UI_DIR/dist /app/client
 
 
 # Expose the port that the app listens on
